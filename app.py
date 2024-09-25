@@ -1,10 +1,11 @@
-from fastapi import FastAPI, Form, HTTPException, Depends, Request
+from fastapi import Depends, FastAPI, Form, HTTPException, Request
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from passlib.context import CryptContext
-from fastapi.responses import HTMLResponse
-from database import connect_to_db, close_db_connection
+
+from database import close_db_connection, connect_to_db
 from database.objects import User
-from repositories.courses import get_courses, get_course_fee, get_courses_by_med
+from repositories.courses import get_course_fee, get_courses, get_courses_by_med
 from repositories.users import delete_user_by_id, get_user_by_id
 from utils import create_jwt, dict_to_object, verify_user_token
 
@@ -34,7 +35,6 @@ async def login(username: str = Form(...), password: str = Form(...)):
 
         user_obj = dict_to_object(user_dict, User)
         token = create_jwt(user_obj.id, user_obj.level)
-        current_user = await verify_user_token(token)
         if user is None:
             raise HTTPException(status_code=400, detail="Invalid credentials")
 

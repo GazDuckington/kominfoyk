@@ -11,6 +11,7 @@ fastapi = {extras = ["standard"], version = "^0.115.0"}
 asyncpg = "^0.29.0"
 passlib = "^1.7.4"
 pyjwt = "^2.9.0"
+pytest = "^8.3.3"
 
 
 [build-system]
