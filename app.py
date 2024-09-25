@@ -23,6 +23,7 @@ async def login(username: str = Body(...), password: str = Body(...)):
             raise HTTPException(status_code=500, detail="Invalid credentials")
 
         user_obj = dict_to_object(user_dict, User)
+        print(user_obj, user_obj.created_at)
         if user is None:
             raise HTTPException(status_code=400, detail="Invalid credentials")
 
