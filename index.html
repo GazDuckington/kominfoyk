@@ -13,6 +13,7 @@
         hx-post="/login/" 
         hx-target="#response" 
         hx-swap="innerHTML" 
+    hx-on="htmx:afterRequest: handleLoginResponse(event)" 
         method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
@@ -23,6 +24,7 @@
         <button type="submit">Login</button>
     </form>
     <div id="response"></div>
+
     <h1>Register</h1>
     <form
 			hx-post="/register/"
@@ -42,6 +44,26 @@
     </form>
     <div id="registerResponse"></div>
 
-    <script></script>
+ <h1>Courses List</h1>
+    <button hx-get="/courses"
+    hx-headers='{"Authorization": "Bearer " + localStorage.getItem("token")}'
+			hx-target="#course-table" hx-swap="innerHTML">Load Courses Stat</button>
+    <div id="course-table">
+        <!-- Courses will be loaded here -->
+    </div>
+    <script>
+    function handleLoginResponse(event) {
+        // Check if the response contains the token
+        const response = event.detail.xhr.response;
+			console.log(JSON.parse(response).access_token)
+        const data = JSON.parse(response);
+
+        if (data.status === "true" && data.access_token) {
+            // Store the token in localStorage
+            localStorage.setItem("token", data.access_token);
+        }
+    }
+		console.log(localStorage.getItem("token"))
+		</script>
 </body>
 </html>

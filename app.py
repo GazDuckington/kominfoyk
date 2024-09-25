@@ -1,13 +1,16 @@
-from fastapi import Body, FastAPI, Form, HTTPException, Depends
+from fastapi import FastAPI, Form, HTTPException, Depends, Request
+from fastapi.templating import Jinja2Templates
 from passlib.context import CryptContext
-from starlette.responses import HTMLResponse
+from fastapi.responses import HTMLResponse
 from database import connect_to_db, close_db_connection
 from database.objects import User
+from repositories.courses import get_courses
 from repositories.users import delete_user_by_id, get_user_by_id
 from utils import create_jwt, dict_to_object, verify_user_token
 
 app = FastAPI()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+templates = Jinja2Templates(directory="templates")  # Directory for HTML templates
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -81,3 +84,14 @@ async def delete_user(user_id: int, current_user: User = Depends(verify_user_tok
 
     await delete_user_by_id(user_id)  # Call the delete function
     return {"status": "true", "message": "User deleted successfully"}
+
+
+# courses:
+
+
+@app.get("/courses", response_class=HTMLResponse)
+async def read_courses(request: Request):
+    courses = await get_courses()
+    return templates.TemplateResponse(
+        "courses.html", {"request": request, "courses": courses}
+    )
