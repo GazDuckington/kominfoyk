@@ -12,7 +12,12 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 async def login(username: str = Body(...), password: str = Body(...)):
     conn = await connect_to_db()
     try:
-        user = await conn.fetchrow("SELECT * FROM users WHERE username = $1", username)
+        # WARN: bad practice, should be hashed password
+        user = await conn.fetchrow(
+            "SELECT * FROM users WHERE username = $1 AND password = $2",
+            username,
+            password,
+        )
         user_dict = dict(user) if user else None
         if user_dict is None:
             raise HTTPException(status_code=500, detail="Invalid credentials")
@@ -21,7 +26,11 @@ async def login(username: str = Body(...), password: str = Body(...)):
         if user is None:
             raise HTTPException(status_code=400, detail="Invalid credentials")
 
-        return {"message": "Login successful", "user_id": user["id"]}
+        return {
+            "message": "Login successful",
+            "user_id": user_obj.id,
+            "level": user_obj.level,
+        }
     finally:
         await close_db_connection(conn)
 
