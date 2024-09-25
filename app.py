@@ -4,7 +4,7 @@ from passlib.context import CryptContext
 from fastapi.responses import HTMLResponse
 from database import connect_to_db, close_db_connection
 from database.objects import User
-from repositories.courses import get_courses
+from repositories.courses import get_courses, get_course_fee, get_courses_by_med
 from repositories.users import delete_user_by_id, get_user_by_id
 from utils import create_jwt, dict_to_object, verify_user_token
 
@@ -94,4 +94,28 @@ async def read_courses(request: Request):
     courses = await get_courses()
     return templates.TemplateResponse(
         "courses.html", {"request": request, "courses": courses}
+    )
+
+
+@app.get("/courses/fee", response_class=HTMLResponse)
+async def read_courses_fees(request: Request):
+    courses = await get_course_fee()
+    return templates.TemplateResponse(
+        "courses-fee.html", {"request": request, "courses": courses}
+    )
+
+
+@app.get("/courses/sarjana", response_class=HTMLResponse)
+async def read_courses_med(request: Request):
+    courses = await get_courses_by_med(sarjana=True)
+    return templates.TemplateResponse(
+        "courses-med.html", {"request": request, "courses": courses}
+    )
+
+
+@app.get("/courses/nsarjana", response_class=HTMLResponse)
+async def read_courses_med_ns(request: Request):
+    courses = await get_courses_by_med(sarjana=False)
+    return templates.TemplateResponse(
+        "courses-med.html", {"request": request, "courses": courses}
     )

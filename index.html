@@ -48,6 +48,27 @@
     <button hx-get="/courses"
     hx-headers='{"Authorization": "Bearer " + localStorage.getItem("token")}'
 			hx-target="#course-table" hx-swap="innerHTML">Load Courses Stat</button>
+
+    <button hx-get="/courses/fee"
+    hx-headers='{"Authorization": "Bearer " + localStorage.getItem("token")}'
+			hx-target="#course-fee" hx-swap="innerHTML">Load Mentor Earnings</button>
+
+    <button hx-get="/courses/sarjana"
+    hx-headers='{"Authorization": "Bearer " + localStorage.getItem("token")}'
+			hx-target="#course-sarjana" hx-swap="innerHTML">Load Sarjana</button>
+    <button hx-get="/courses/nsarjana"
+    hx-headers='{"Authorization": "Bearer " + localStorage.getItem("token")}'
+			hx-target="#course-sarjan" hx-swap="innerHTML">Load Non-Sarjana</button>
+
+    <div id="course-sarjana">
+        <!-- Courses will be loaded here -->
+    </div>
+    <div id="course-sarjan">
+        <!-- Courses will be loaded here -->
+    </div>
+    <div id="course-fee">
+        <!-- Courses will be loaded here -->
+    </div>
     <div id="course-table">
         <!-- Courses will be loaded here -->
     </div>

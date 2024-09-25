@@ -63,7 +63,7 @@ HAVING
 -- 8
 SELECT 
     c.mentor,
-    COUNT(DISTINCT uc.id_user) AS jumlah_peserta
+    COUNT(DISTINCT uc.id_user) AS jumlah_peserta,
     COUNT(DISTINCT uc.id_user) * 2000000 AS total_fee
 FROM 
     public.courses c

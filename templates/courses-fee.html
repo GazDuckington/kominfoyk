@@ -1,0 +1,18 @@
+<table>
+    <thead>
+        <tr>
+            <th>Mentor</th>
+            <th>Jumlah Peserta</th>
+            <th>Total Fee</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+        <tr>
+            <td>{{ course.mentor }}</td>
+            <td>{{ course.jumlah_peserta }}</td>
+            <td>{{ course.total_fee }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
