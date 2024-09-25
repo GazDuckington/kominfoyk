@@ -60,7 +60,7 @@
     <button hx-get="/courses/nsarjana"
 			hx-target="#course-sarjan"
 			hx-swap="innerHTML"
-			hx-headers='{"Authorization": "Bearer " + localStorage.getItem("token") || ""}'
+			hx-headers='{"Authorization": "Bearer " + String(localStorage.getItem("token")) || ""}'
 		>Load Non-Sarjana</button>
 
     <div id="course-sarjana">
