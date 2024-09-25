@@ -36,15 +36,17 @@ async def login(username: str = Body(...), password: str = Body(...)):
 
 
 @app.post("/register/")
-async def register(username: str, email: str, password: str):
+async def register(
+    username: str = Body(...), email: str = Body(...), password: str = Body(...)
+):
     conn = await connect_to_db()
     try:
-        hashed_password = pwd_context.hash(password)
+        # hashed_password = pwd_context.hash(password)
         await conn.execute(
             "INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",
             username,
             email,
-            hashed_password,
+            password,
         )
         return {"message": "User created"}
     finally:
