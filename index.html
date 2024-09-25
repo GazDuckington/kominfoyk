@@ -56,9 +56,12 @@
     <button hx-get="/courses/sarjana"
     hx-headers='{"Authorization": "Bearer " + localStorage.getItem("token")}'
 			hx-target="#course-sarjana" hx-swap="innerHTML">Load Sarjana</button>
+
     <button hx-get="/courses/nsarjana"
-    hx-headers='{"Authorization": "Bearer " + localStorage.getItem("token")}'
-			hx-target="#course-sarjan" hx-swap="innerHTML">Load Non-Sarjana</button>
+			hx-target="#course-sarjan"
+			hx-swap="innerHTML"
+			hx-headers='{"Authorization": "Bearer " + localStorage.getItem("token") || ""}'
+		>Load Non-Sarjana</button>
 
     <div id="course-sarjana">
         <!-- Courses will be loaded here -->
@@ -76,15 +79,14 @@
     function handleLoginResponse(event) {
         // Check if the response contains the token
         const response = event.detail.xhr.response;
-			console.log(JSON.parse(response).access_token)
         const data = JSON.parse(response);
 
         if (data.status === "true" && data.access_token) {
             // Store the token in localStorage
             localStorage.setItem("token", data.access_token);
+						console.log("Token stored:", localStorage.getItem("token"));
         }
     }
-		console.log(localStorage.getItem("token"))
 		</script>
 </body>
 </html>
